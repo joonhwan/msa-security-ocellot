@@ -1,0 +1,3 @@
+[submodule "cwk.ocelot.demo"]
+	path = cwk.ocelot.demo
+	url = https://github.com/danpdc/cwk.ocelot.demo.git
