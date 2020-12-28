@@ -119,19 +119,21 @@ namespace MireroTicket.Services.ShoppingBasket.Controllers
                             }
                         )
                     );
-                
+
                 int totalPrice =
                     basketCheckoutMessage
                         .BasketLines
                         .Sum(lineMessage =>
                             lineMessage.Price * lineMessage.TicketAmount
                         );
-
+                
                 // Discount서버시를 통해 할인 적용.
                 var userId = basketCheckout.UserId;
                 var coupon = userId.IsValidDbStringId() ? await _discountService.GetCouponAsync(userId) : null;
                 var couponAmount = coupon?.Amount ?? 0;
-                basketCheckoutMessage.BasketTotal -= couponAmount;
+                
+                // 지불금액 
+                basketCheckoutMessage.BasketTotal = totalPrice - couponAmount;
 
                 // 다른 서비스(~= Order Service) 에 Checkout 되었음을 통지. 
                 await _producer.Produce(basketCheckoutMessage);
