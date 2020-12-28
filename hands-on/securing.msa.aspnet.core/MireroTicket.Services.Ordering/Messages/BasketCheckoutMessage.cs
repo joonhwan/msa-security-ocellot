@@ -2,6 +2,7 @@ using MireroTicket.Messages;
 
 namespace MireroTicket.Services.Ordering.Messages
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class BasketCheckoutMessage : CommandMessage // NotificationMessage인가?
     {
         public string UserId { get; set; }

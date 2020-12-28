@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UserSecretsId>dotnet-MireroTicket.ServiceBus.TestWorker-8FF03F6F-798C-40DE-A204-07CF4E4748B7</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MireroTicket.ServiceBus.TestMessages\MireroTicket.ServiceBus.TestMessages.csproj" />
+      <ProjectReference Include="..\MireroTicket.ServiceBus\MireroTicket.ServiceBus.csproj" />
+    </ItemGroup>
+</Project>

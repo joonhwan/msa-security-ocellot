@@ -21,16 +21,16 @@ namespace MireroTicket.Services.Discount.DbContexts
             
             modelBuilder.Entity<Coupon>().HasData(new Coupon
             {
-                CouponId = Guid.NewGuid().ToDbString(), 
+                CouponId = Guid.NewGuid().ToDbStringId(), 
                 Amount = 10, 
-                UserId = Guid.Parse("{E455A3DF-7FA5-47E0-8435-179B300D531F}").ToDbString(),
+                UserId = Guid.Parse("{E455A3DF-7FA5-47E0-8435-179B300D531F}").ToDbStringId(),
             });
 
             modelBuilder.Entity<Coupon>().HasData(new Coupon
             {
-                CouponId = Guid.NewGuid().ToDbString(), 
+                CouponId = Guid.NewGuid().ToDbStringId(), 
                 Amount = 20, 
-                UserId = Guid.Parse("{bbf594b0-3761-4a65-b04c-eec4836d9070}").ToDbString()
+                UserId = Guid.Parse("{bbf594b0-3761-4a65-b04c-eec4836d9070}").ToDbStringId()
             }); 
         }
     }

@@ -1,31 +1,26 @@
 using System;
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
-using MireroTicket.Messages;
+using MediatR;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace MireroTicket.ServiceBus
+namespace MireroTicket.ServiceBus.RabbitMQ
 {
     public class Consumer<T> : IDisposable
-        where T : CommandMessage
+        where T : IRequest
     {
-        private ConnectionFactory _factory;
+        private readonly ConnectionProvider _connectionProvider;
         private IConnection _connection;
         private IModel _channel;
         private EventingBasicConsumer _consumer;
         
-        public Consumer(IConfiguration config)
+        public Consumer(ConnectionProvider connectionProvider)
         {
-            var url = config.GetConnectionString("AMQP");
-            _factory = new ConnectionFactory()
-            {
-                Uri = new Uri(url),
-            };
+            _connectionProvider = connectionProvider;
         }
 
-        private string QueueName { get; set; } = typeof(T).FullName;
         public event Action<T> OnCommand;
 
         public void Start()
@@ -35,15 +30,15 @@ namespace MireroTicket.ServiceBus
                 Console.WriteLine("Consumer Already Started.");
                 return;
             }
-            
-            _connection = _factory.CreateConnection();
+
+            var queueName = NamingRule.WorkerQueueNameOf<T>();
+            _connection = _connectionProvider.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(QueueName, false, false, false, null);
+            _channel.QueueDeclare(queueName, false, false, false, null);
 
             _consumer = new EventingBasicConsumer(_channel);
             _consumer.Received += OnReceived;
-            _channel.BasicConsume(_consumer, QueueName, true);
-            Console.WriteLine("Consumer Started.");
+            _channel.BasicConsume(_consumer, queueName, true);
         }
 
         public void Stop()
@@ -52,7 +47,7 @@ namespace MireroTicket.ServiceBus
             _connection = null;
             _channel?.Dispose();
             _channel = null;
-            Console.WriteLine("Consumer Stopped.");
+            Console.WriteLine($"Consumer<{typeof(T).FullName}> Stopped.");
         }
 
         private void OnReceived(object sender, BasicDeliverEventArgs e)

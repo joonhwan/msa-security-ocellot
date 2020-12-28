@@ -23,7 +23,7 @@ namespace MireroTicket.Services.Ordering.MessageHandlers
         {
             var order = new Order()
             {
-                Id = Guid.NewGuid().ToDbString(),
+                Id = Guid.NewGuid().ToDbStringId(),
                 Paid = false,
                 Total = request.BasketTotal,
                 PlacedTime = DateTime.Now.ToDbDateTimeString(),

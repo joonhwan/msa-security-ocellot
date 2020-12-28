@@ -90,7 +90,7 @@ namespace MireroTicket.Services.EventCatalog.Migrations
                             CategoryId = "b0788d2f-8003-43c1-92a4-edc76a7c5dde",
                             Date = "2021-06-27T15:16:25.3351910+09:00",
                             Description = "Join John for his farwell tour across 15 continents. John really needs no introduction since he has already mesmerized the world with his banjo.",
-                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/banjo.jpg",
+                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/banjo.jpg",
                             Name = "John Egbert Live",
                             Price = 65
                         },
@@ -101,7 +101,7 @@ namespace MireroTicket.Services.EventCatalog.Migrations
                             CategoryId = "b0788d2f-8003-43c1-92a4-edc76a7c5dde",
                             Date = "2021-09-27T15:16:25.3385450+09:00",
                             Description = "Michael Johnson doesn't need an introduction. His 25 concert across the globe last year were seen by thousands. Can we add you to the list?",
-                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/michael.jpg",
+                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/michael.jpg",
                             Name = "The State of Affairs: Michael Live!",
                             Price = 85
                         },
@@ -112,7 +112,7 @@ namespace MireroTicket.Services.EventCatalog.Migrations
                             CategoryId = "b0788d2f-8003-43c1-92a4-edc76a7c5dde",
                             Date = "2021-04-27T15:16:25.3385590+09:00",
                             Description = "DJs from all over the world will compete in this epic battle for eternal fame.",
-                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/dj.jpg",
+                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/dj.jpg",
                             Name = "Clash of the DJs",
                             Price = 85
                         },
@@ -123,7 +123,7 @@ namespace MireroTicket.Services.EventCatalog.Migrations
                             CategoryId = "b0788d2f-8003-43c1-92a4-edc76a7c5dde",
                             Date = "2021-04-27T15:16:25.3385630+09:00",
                             Description = "Get on the hype of Spanish Guitar concerts with Manuel.",
-                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/guitar.jpg",
+                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/guitar.jpg",
                             Name = "Spanish guitar hits with Manuel",
                             Price = 25
                         },
@@ -134,7 +134,7 @@ namespace MireroTicket.Services.EventCatalog.Migrations
                             CategoryId = "fe98f549-e790-4e9f-aa16-18c2292a2ee9",
                             Date = "2021-10-27T15:16:25.3385660+09:00",
                             Description = "The best tech conference in the world",
-                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/conf.jpg",
+                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/conf.jpg",
                             Name = "Techorama 2021",
                             Price = 400
                         },
@@ -145,7 +145,7 @@ namespace MireroTicket.Services.EventCatalog.Migrations
                             CategoryId = "6313179f-7837-473a-a4d5-a5571b43e6a6",
                             Date = "2021-08-27T15:16:25.3385700+09:00",
                             Description = "The critics are over the moon and so will you after you've watched this sing and dance extravaganza written by Nick Sailor, the man from 'My dad and sister'.",
-                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/musical.jpg",
+                            ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/musical.jpg",
                             Name = "To the Moon and Back",
                             Price = 135
                         });

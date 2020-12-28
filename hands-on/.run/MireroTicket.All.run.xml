@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MireroTicket.All" type="CompoundRunConfigurationType">
+    <toRun name="MireroTicket.Services.EventCatalog" type="LaunchSettings" />
+    <toRun name="MireroTicket.Services.Ordering" type="LaunchSettings" />
+    <toRun name="MireroTicket.Web" type="LaunchSettings" />
+    <toRun name="MireroTicket.Services.ShoppintBasket" type="LaunchSettings" />
+    <toRun name="MireroTicket.Services.Discount" type="LaunchSettings" />
+    <method v="2" />
+  </configuration>
+</component>

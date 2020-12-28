@@ -19,10 +19,10 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
-            var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}").ToDbString();
-            var musicalGuid = Guid.Parse("{6313179F-7837-473A-A4D5-A5571B43E6A6}").ToDbString();
-            var playGuid = Guid.Parse("{BF3F3002-7E53-441E-8B76-F6280BE284AA}").ToDbString();
-            var conferenceGuid = Guid.Parse("{FE98F549-E790-4E9F-AA16-18C2292A2EE9}").ToDbString();
+            var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}").ToDbStringId();
+            var musicalGuid = Guid.Parse("{6313179F-7837-473A-A4D5-A5571B43E6A6}").ToDbStringId();
+            var playGuid = Guid.Parse("{BF3F3002-7E53-441E-8B76-F6280BE284AA}").ToDbStringId();
+            var conferenceGuid = Guid.Parse("{FE98F549-E790-4E9F-AA16-18C2292A2EE9}").ToDbStringId();
 
             modelBuilder.Entity<Category>().HasData(new Category
             {
@@ -53,7 +53,7 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
                 Artist = "John Egbert",
                 Date = DateTime.Now.AddMonths(6).ToDbDateTimeString(),
                 Description = "Join John for his farwell tour across 15 continents. John really needs no introduction since he has already mesmerized the world with his banjo.",
-                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/banjo.jpg",
+                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/banjo.jpg",
                 CategoryId = concertGuid
             });
 
@@ -65,7 +65,7 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
                 Artist = "Michael Johnson",
                 Date = DateTime.Now.AddMonths(9).ToDbDateTimeString(),
                 Description = "Michael Johnson doesn't need an introduction. His 25 concert across the globe last year were seen by thousands. Can we add you to the list?",
-                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/michael.jpg",
+                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/michael.jpg",
                 CategoryId = concertGuid
             });
 
@@ -77,7 +77,7 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
                 Artist = "DJ 'The Mike'",
                 Date = DateTime.Now.AddMonths(4).ToDbDateTimeString(),
                 Description = "DJs from all over the world will compete in this epic battle for eternal fame.",
-                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/dj.jpg",
+                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/dj.jpg",
                 CategoryId = concertGuid
             });
 
@@ -89,7 +89,7 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
                 Artist = "Manuel Santinonisi",
                 Date = DateTime.Now.AddMonths(4).ToDbDateTimeString(),
                 Description = "Get on the hype of Spanish Guitar concerts with Manuel.",
-                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/guitar.jpg",
+                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/guitar.jpg",
                 CategoryId = concertGuid
             });
 
@@ -101,7 +101,7 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
                 Artist = "Many",
                 Date = DateTime.Now.AddMonths(10).ToDbDateTimeString(),
                 Description = "The best tech conference in the world",
-                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/conf.jpg",
+                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/conf.jpg",
                 CategoryId = conferenceGuid
             });
 
@@ -113,7 +113,7 @@ namespace MireroTicket.Services.EventCatalog.DbContexts
                 Artist = "Nick Sailor",
                 Date = DateTime.Now.AddMonths(8).ToDbDateTimeString(),
                 Description = "The critics are over the moon and so will you after you've watched this sing and dance extravaganza written by Nick Sailor, the man from 'My dad and sister'.",
-                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/musical.jpg",
+                ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/MireroTicket/musical.jpg",
                 CategoryId = musicalGuid
             });
             base.OnModelCreating(modelBuilder);

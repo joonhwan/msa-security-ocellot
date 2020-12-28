@@ -9,7 +9,7 @@ using MireroTicket.Services.Discount.Models;
 
 namespace MireroTicket.Services.Discount.Controllers
 {
-    [Route("api/discounts")]
+    [Route("api/discount")]
     public class DiscountController : ControllerBase
     {
         private readonly DiscountContext _context;
@@ -19,15 +19,15 @@ namespace MireroTicket.Services.Discount.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CouponDto>>> GetAllDiscounts()
-        {
-            var entities = await _context.Coupons.ToListAsync();
-
-            var coupons = entities.Select(CouponMapper.From);
-
-            return Ok(coupons);
-        }
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<CouponDto>>> GetAllDiscounts()
+        // {
+        //     var entities = await _context.Coupons.ToListAsync();
+        //
+        //     var coupons = entities.Select(CouponMapper.From);
+        //
+        //     return Ok(coupons);
+        // }
 
         [HttpGet("{couponId}")]
         public async Task<ActionResult<CouponDto>> GetDiscountById(string couponId)

@@ -2,33 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
-using MireroTicket.Messages;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
-namespace MireroTicket.ServiceBus
+namespace MireroTicket.ServiceBus.RabbitMQ
 {
-    public class Producer
+    public class Producer<T> : IMessageProducer<T> 
+        where T : IRequest
     {
-        private readonly ConnectionFactory _factory;
-
-        public Producer(IConfiguration configuration)
+        private readonly ConnectionProvider _connectionProvider;
+        
+        public Producer(ConnectionProvider connectionProvider)
         {
-            var url = configuration.GetConnectionString("AMQP");
-            _factory = new ConnectionFactory()
-            {
-                Uri = new Uri(url)
-            };
+            _connectionProvider = connectionProvider;
         }
 
-        public void Send<T>(T message) 
-            where T : CommandMessage
-        
+        public Task Produce(T message)
         {
-            using var connection = _factory.CreateConnection();
+            using var connection = _connectionProvider.CreateConnection();
             using var channel = connection.CreateModel();
 
-            var queueName = typeof(T).FullName;
+            var queueName = NamingRule.WorkerQueueNameOf<T>();
             var queueDeclareOk = channel.QueueDeclare(queueName, false, false, false);
             
             var json = JsonSerializer.Serialize(message);
@@ -44,6 +40,8 @@ namespace MireroTicket.ServiceBus
                 ["message_type"] = messageType,
             };
             channel.BasicPublish("", queueName, props, bytes);
+
+            return Task.CompletedTask; 
         }
     }
 }

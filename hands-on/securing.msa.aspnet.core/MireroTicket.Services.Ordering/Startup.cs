@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MireroTicket.Messages;
 using MireroTicket.ServiceBus;
+using MireroTicket.ServiceBus.RabbitMQ;
 using MireroTicket.Services.Ordering.DbContexts;
 using MireroTicket.Services.Ordering.Messages;
 
@@ -35,6 +36,10 @@ namespace MireroTicket.Services.Ordering
                 builder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
             });
             
+            services.Configure<ServiceBusOptions>(_configuration.GetSection("ServiceBus"));
+            services.AddRabbitServiceBus(builder =>
+            {
+            });
             services.AddMediatR(new[]
             {
                 typeof(Startup).Assembly,
