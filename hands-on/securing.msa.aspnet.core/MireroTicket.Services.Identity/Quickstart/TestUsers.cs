@@ -29,7 +29,7 @@ namespace IdentityServerHost.Quickstart.UI
                 {
                     new TestUser
                     {
-                        SubjectId = "818727",
+                        SubjectId = "e455a3df-7fa5-47e0-8435-179b300d531f",
                         Username = "alice",
                         Password = "alice",
                         Claims =
@@ -45,7 +45,7 @@ namespace IdentityServerHost.Quickstart.UI
                     },
                     new TestUser
                     {
-                        SubjectId = "88421113",
+                        SubjectId = "bbf594b0-3761-4a65-b04c-eec4836d9070",
                         Username = "bob",
                         Password = "bob",
                         Claims =

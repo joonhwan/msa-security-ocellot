@@ -10,7 +10,7 @@ Content-Type: application/json
 "모두에게 알립니다. 내년에는 잘될거에요. 1 "
 
 ###
-POST https://localhost:5041/api/baskets
+POST https://localhost:5002/api/baskets
 Content-Type: application/json
 
 {
