@@ -55,7 +55,7 @@ namespace MireroTicket.Services.EventCatalog
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5010"; // identity서비스 url
-                    options.Audience = "mirero.ticket";
+                    options.Audience = "mireroticket.aud.all";
                 })
                 ;
         }

@@ -4,39 +4,77 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 
 namespace MireroTicket.Web.Services
 {
     public class EventCatalogService : IEventCatalogService
     {
-        private readonly HttpClient client;
+        private readonly HttpClient _client;
+        private string _accessToken;
 
         public EventCatalogService(HttpClient client)
         {
-            this.client = client;
+            _client = client;
+            _accessToken = null;
+        }
+
+        private async Task EnsureBearerTokenHeader()
+        {
+            if (string.IsNullOrEmpty(_accessToken))
+            {
+                var ddr = await _client.GetDiscoveryDocumentAsync("https://localhost:5010");
+                if (ddr.IsError)
+                {
+                    throw new Exception(ddr.Error);
+                }
+
+                var tokenResponse = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+                {
+                    Address = ddr.TokenEndpoint,
+                    ClientId = "mireroticket.client.internal",
+                    ClientSecret = "mireroticket.super.secrets",
+                    Scope = "mireroticket.scope.all",
+                });
+                if (tokenResponse.IsError)
+                {
+                    throw new Exception(tokenResponse.Error);
+                }
+
+                _accessToken = tokenResponse.AccessToken;
+            }
+            _client.SetBearerToken(_accessToken);
         }
 
         public async Task<IEnumerable<Event>> GetAll()
         {
-            var response = await client.GetAsync("/api/events");
+            await EnsureBearerTokenHeader();
+            
+            var response = await _client.GetAsync("/api/events");
             return await response.ReadContentAs<List<Event>>();
         }
 
         public async Task<IEnumerable<Event>> GetByCategoryId(Guid categoryid)
         {
-            var response = await client.GetAsync($"/api/events/?categoryId={categoryid}");
+            await EnsureBearerTokenHeader();
+
+            var response = await _client.GetAsync($"/api/events/?categoryId={categoryid}");
             return await response.ReadContentAs<List<Event>>();
         }
 
         public async Task<Event> GetEvent(Guid id)
         {
-            var response = await client.GetAsync($"/api/events/{id}");
+            await EnsureBearerTokenHeader();
+
+            var response = await _client.GetAsync($"/api/events/{id}");
             return await response.ReadContentAs<Event>();
         }
 
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            var response = await client.GetAsync("/api/categories");
+            await EnsureBearerTokenHeader();
+
+            var response = await _client.GetAsync("/api/categories");
             return await response.ReadContentAs<List<Category>>();
         }
 
