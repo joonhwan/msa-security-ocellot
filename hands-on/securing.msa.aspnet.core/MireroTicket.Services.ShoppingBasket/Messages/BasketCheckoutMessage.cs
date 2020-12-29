@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using MireroTicket.Messages;
+using MireroTicket.ServiceBus.Attributes;
 
 namespace MireroTicket.Services.ShoppingBasket.Messages
 {
+    [Alias("BasketCheckoutMessage")]
     public class BasketCheckoutMessage : CommandMessage
     {
         public string BasketId { get; set; }

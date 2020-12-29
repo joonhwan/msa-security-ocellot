@@ -1,10 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ServiceBus.Test" type="CompoundRunConfigurationType">
-    <toRun name="MireroTicket.Services.EventCatalog" type="LaunchSettings" />
-    <toRun name="MireroTicket.Services.Ordering" type="LaunchSettings" />
-    <toRun name="MireroTicket.Web" type="LaunchSettings" />
-    <toRun name="MireroTicket.Services.ShoppintBasket" type="LaunchSettings" />
-    <toRun name="MireroTicket.Services.Discount" type="LaunchSettings" />
+    <toRun name="MireroTicket.ServiceBus.TestClient" type="LaunchSettings" />
+    <toRun name="MireroTicket.ServiceBus.TestWorker" type="LaunchSettings" />
     <method v="2" />
   </configuration>
 </component>

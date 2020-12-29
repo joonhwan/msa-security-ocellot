@@ -14,6 +14,7 @@ using MireroTicket.Messages;
 using MireroTicket.ServiceBus;
 using MireroTicket.ServiceBus.RabbitMQ;
 using MireroTicket.Services.Ordering.DbContexts;
+using MireroTicket.Services.Ordering.MessageHandlers;
 using MireroTicket.Services.Ordering.Messages;
 
 namespace MireroTicket.Services.Ordering
@@ -35,17 +36,21 @@ namespace MireroTicket.Services.Ordering
             {
                 builder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
             });
-            
+            //services.AddTransient<IMediator, OrderingMediator>();
+            services
+                .AddScoped<IRequestHandler<BasketCheckoutMessage>, BasketCheckoutMessageHandler>()
+                .AddMediatR(new[]
+                {
+                    typeof(Startup).Assembly,
+                    typeof(CommandMessage).Assembly,
+                })
+                ;
+
             services.Configure<ServiceBusOptions>(_configuration.GetSection("ServiceBus"));
             services.AddRabbitServiceBus(builder =>
             {
+                builder.AddConsumerService<BasketCheckoutMessage>();
             });
-            services.AddMediatR(new[]
-            {
-                typeof(Startup).Assembly,
-                typeof(CommandMessage).Assembly,
-            });
-            services.AddHostedService<ConsumerService<BasketCheckoutMessage>>();
             
             services.AddControllers();
         }
