@@ -5,8 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="8.1.0" />
-      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
         <PrivateAssets>all</PrivateAssets>
@@ -16,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MediatR.Extensions.Microsoft.DependencyInjection\src\MediatR.Extensions.Microsoft.DependencyInjection\MediatR.Extensions.Microsoft.DependencyInjection.csproj" />
       <ProjectReference Include="..\MireroTicket.Messages\MireroTicket.Messages.csproj" />
       <ProjectReference Include="..\MireroTicket.ServiceBus\MireroTicket.ServiceBus.csproj" />
       <ProjectReference Include="..\MireroTicket.Services.Common\MireroTicket.Services.Common.csproj" />

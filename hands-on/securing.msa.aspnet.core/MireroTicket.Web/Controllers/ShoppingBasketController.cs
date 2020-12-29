@@ -131,6 +131,7 @@ namespace MireroTicket.Web.Controllers
 
         public IActionResult CheckoutComplete()
         {
+            Response.Cookies.Delete(settings.BasketIdCookieName);
             return View();
         }
     }

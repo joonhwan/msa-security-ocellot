@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MediatR.Extensions.Microsoft.DependencyInjection\src\MediatR.Extensions.Microsoft.DependencyInjection\MediatR.Extensions.Microsoft.DependencyInjection.csproj" />
       <ProjectReference Include="..\MireroTicket.ServiceBus.TestMessages\MireroTicket.ServiceBus.TestMessages.csproj" />
       <ProjectReference Include="..\MireroTicket.ServiceBus\MireroTicket.ServiceBus.csproj" />
     </ItemGroup>

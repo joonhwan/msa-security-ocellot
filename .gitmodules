@@ -1,3 +1,9 @@
 [submodule "cwk.ocelot.demo"]
 	path = cwk.ocelot.demo
 	url = https://github.com/danpdc/cwk.ocelot.demo.git
+[submodule "hands-on/securing.msa.aspnet.core/MediatR"]
+	path = hands-on/securing.msa.aspnet.core/MediatR
+	url = git@github.com:jbogard/MediatR.git
+[submodule "hands-on/securing.msa.aspnet.core/MediatR.Extensions.Microsoft.DependencyInjection"]
+	path = hands-on/securing.msa.aspnet.core/MediatR.Extensions.Microsoft.DependencyInjection
+	url = git@github.com:jbogard/MediatR.Extensions.Microsoft.DependencyInjection.git

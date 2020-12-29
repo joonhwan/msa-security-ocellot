@@ -6,6 +6,6 @@ namespace MireroTicket.ServiceBus
     public interface IMessagePublisher<in T>
         where T : INotification
     {
-        public Task Publish(T message);
+        Task Publish(T message);
     }
 }

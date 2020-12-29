@@ -434,4 +434,4 @@ $RECYCLE.BIN/
 
 ## 강좌파일은 zip 으로만. -,.-
 securing-microservices-asp-dot-net-core/*
-
+.DS_Store/*

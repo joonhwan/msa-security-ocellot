@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -13,13 +14,13 @@ namespace MireroTicket.ServiceBus.RabbitMQ
         where T : IRequest
     {
         private readonly ConnectionProvider _connectionProvider;
-        private readonly IMediator _mediator;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<ConsumerService<T>> _logger;
         
-        public ConsumerService(ConnectionProvider connectionProvider, IMediator mediator, ILogger<ConsumerService<T>> logger)
+        public ConsumerService(ConnectionProvider connectionProvider, IServiceScopeFactory serviceScopeFactory, ILogger<ConsumerService<T>> logger)
         {
             _connectionProvider = connectionProvider;
-            _mediator = mediator;
+            _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
         }
 
@@ -28,7 +29,9 @@ namespace MireroTicket.ServiceBus.RabbitMQ
             using var consumer = new Consumer<T>(_connectionProvider);
             consumer.OnCommand += message =>
             {
-                _mediator.Send(message, stoppingToken); // send only one handler.
+                using var scope = _serviceScopeFactory.CreateScope(); // TODO Correct?
+                var mediator = scope.ServiceProvider.GetService<IMediator>();
+                mediator.Send(message, stoppingToken); // send only one handler.
             };
             
             consumer.Start();
