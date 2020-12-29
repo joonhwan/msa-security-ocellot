@@ -1,8 +1,13 @@
-﻿using MireroTicket.Web.Models;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
+using MireroTicket.Web.Models;
 using MireroTicket.Web.Models.View;
 using MireroTicket.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Web.Controllers
 {
@@ -19,7 +24,8 @@ namespace MireroTicket.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var orders = await orderService.GetOrdersForUser(settings.UserId);
+            User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
+            var orders = await orderService.GetOrdersForUser(userId);
 
             return View(new OrderViewModel { Orders = orders });
         }

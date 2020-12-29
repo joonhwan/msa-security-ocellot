@@ -6,7 +6,9 @@ using MireroTicket.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Web.Controllers
 {
@@ -95,6 +97,7 @@ namespace MireroTicket.Web.Controllers
         {
             try
             {
+                User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
                 var basketId = Request.Cookies.GetCurrentBasketId(settings);
                 if (ModelState.IsValid)
                 {
@@ -112,7 +115,7 @@ namespace MireroTicket.Web.Controllers
                         CardExpiration = basketCheckoutViewModel.CardExpiration,
                         CvvCode = basketCheckoutViewModel.CvvCode,
                         BasketId = basketId,
-                        UserId = settings.UserId
+                        UserId = userId,
                     };
 
                     await basketService.Checkout(basketCheckoutViewModel.BasketId, basketForCheckout);

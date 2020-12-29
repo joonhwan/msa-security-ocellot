@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,12 +30,23 @@ namespace MireroTicket.Web
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            var builder = services.AddControllersWithViews();
+        {   
+            var authPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    //.RequireClaim("role", "admin", "poweruser")
+                    .Build()
+                ;
+
+            var builder = services.AddControllersWithViews(options =>
+            {
+                // [Authorize] globally.
+                options.Filters.Add(new AuthorizeFilter(authPolicy));
+            });
 
             if (environment.IsDevelopment())
                 builder.AddRazorRuntimeCompilation();
 
+            services.AddHttpContextAccessor();
             services.AddHttpClient<IEventCatalogService, EventCatalogService>(c => 
                 c.BaseAddress = new Uri(config["ApiConfigs:EventCatalog:Uri"]));
             services.AddHttpClient<IShoppingBasketService, ShoppingBasketService>(c => 
@@ -39,6 +55,29 @@ namespace MireroTicket.Web
                 c.BaseAddress = new Uri(config["ApiConfigs:Order:Uri"]));
         
             services.AddSingleton<Settings>();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; // "Cookies"
+                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme; // "OpenIdConnect" 
+                })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.Authority = "https://localhost:5010";
+                    options.ClientId = "mireroticket.client.ui";
+                    options.ClientSecret = "mireroticket.super.secrets";
+                    options.ResponseType = "code";
+                    options.SaveTokens = true;
+                    // 아래를 true로 활성화하면 id_token 을 수신한 다음,
+                    //    https://.../user 주소로 가서 추가 claim 들을 가져온다.
+                    options.GetClaimsFromUserInfoEndpoint = true; 
+                })
+                ;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,7 +96,7 @@ namespace MireroTicket.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
