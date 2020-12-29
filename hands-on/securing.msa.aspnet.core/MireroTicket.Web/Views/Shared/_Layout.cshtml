@@ -14,7 +14,14 @@
                 <div class="col text-right">
                     <div class="mt-3" >
                         <a asp-controller="Order" asp-action="Index">My orders</a>
-
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var userName = User.GetClaimOrDefault("given_name", "???");
+                            <a asp-controller="Authentication" asp-action="Logout">
+                                Logout (<b>@userName</b>)
+                            </a>
+                        }
+            
                     </div>
                 </div>
             </div>
