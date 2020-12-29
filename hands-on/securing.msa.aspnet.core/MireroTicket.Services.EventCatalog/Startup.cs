@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,8 +36,28 @@ namespace MireroTicket.Services.EventCatalog
                 builder.UseSqlite(connectionString);
             });
 
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build()
+                ;
             // NOT services.AddControllersWithViews()
-            services.AddControllers(); 
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            }); 
+            
+            services
+                // @WebApiAuth
+                //
+                // Web API 서비스가 M2M(Client Credential Flow)를 사용하여 Access Token을 스스로 얻어올 예정이므로,
+                // Authentication 이 필요해진다. 
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://localhost:5010"; // identity서비스 url
+                    options.Audience = "mirero.ticket";
+                })
+                ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,8 +68,9 @@ namespace MireroTicket.Services.EventCatalog
                 app.UseDeveloperExceptionPage();
             }
 
+            //  Routing -> Authentication -> Authorziation 의 순서가 중요하다.
             app.UseRouting();
-            // service api 는 오직 authorization만 개념이?! 
+            app.UseAuthentication(); // see @WebApiAuth
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>
