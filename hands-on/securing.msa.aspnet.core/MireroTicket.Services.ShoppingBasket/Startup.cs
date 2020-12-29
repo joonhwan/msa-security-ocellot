@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,9 +58,25 @@ namespace MireroTicket.Services.ShoppingBasket
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy())
                 ;
-    
 
-            services.AddControllers();
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://localhost:5010";
+                    options.Audience = "mireroticket.aud.any";
+                })
+                ;
+
+            services.AddControllers(options =>
+            {
+                var authPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        //.RequireClaim("role", "admin")
+                        .Build()
+                    ;
+                options.Filters.Add(new AuthorizeFilter(authPolicy));
+            });
         }
 
         private IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -91,6 +110,8 @@ namespace MireroTicket.Services.ShoppingBasket
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

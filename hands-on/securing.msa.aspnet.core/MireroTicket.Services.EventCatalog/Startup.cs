@@ -36,14 +36,14 @@ namespace MireroTicket.Services.EventCatalog
                 builder.UseSqlite(connectionString);
             });
 
-            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build()
-                ;
             // NOT services.AddControllersWithViews()
             services.AddControllers(options =>
             {
-                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+                var authPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build()
+                    ;
+                options.Filters.Add(new AuthorizeFilter(authPolicy));
             }); 
             
             services
@@ -55,7 +55,7 @@ namespace MireroTicket.Services.EventCatalog
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5010"; // identity서비스 url
-                    options.Audience = "mireroticket.aud.all";
+                    options.Audience = "mireroticket.aud.any";
                 })
                 ;
         }

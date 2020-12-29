@@ -20,7 +20,7 @@ namespace MireroTicket.Services.Identity
             => new ApiResource[]
             {
                 // audience들 ?!
-                new ApiResource("mireroticket.aud.all", "MireroTicket API Audience")
+                new ApiResource("mireroticket.aud.any", "MireroTicket API Audience")
                 {
                     Scopes = {"mireroticket.scope.all" }
                 }
@@ -71,7 +71,7 @@ namespace MireroTicket.Services.Identity
                         "openid",
                         "profile",
                         // 우리가 정의한 scope
-                        // "mireroticket.scope.all"
+                        "mireroticket.scope.all"
                     }
                 },
                 
