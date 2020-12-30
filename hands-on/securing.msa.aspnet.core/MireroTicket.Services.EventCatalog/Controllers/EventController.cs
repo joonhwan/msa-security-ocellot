@@ -23,12 +23,13 @@ namespace MireroTicket.Services.EventCatalog.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDto>>> Get()
+        public async Task<ActionResult<IEnumerable<EventDto>>> Get([FromQuery]string categoryId)
         {
             var result =
                     await _context
                         .Events
                         .Include(e => e.Category)
+                        .Where(e => string.IsNullOrEmpty(categoryId) || e.CategoryId == categoryId)
                         .Select(e => EventMapper.From(e))
                         .ToListAsync()
                 ;

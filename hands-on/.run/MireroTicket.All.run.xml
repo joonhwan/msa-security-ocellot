@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MireroTicket.All" type="CompoundRunConfigurationType">
+    <toRun name="MireroTicket.Gateway" type="LaunchSettings" />
     <toRun name="MireroTicket.Services.Discount" type="LaunchSettings" />
     <toRun name="MireroTicket.Services.Ordering" type="LaunchSettings" />
     <toRun name="MireroTicket.Services.ShoppingBasket" type="LaunchSettings" />

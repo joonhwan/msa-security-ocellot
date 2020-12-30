@@ -40,7 +40,7 @@ namespace MireroTicket.Web.Services
             if (basketId == Guid.Empty)
             {
                 _httpContext.HttpContext.User.TryGetClaim(JwtClaimTypes.Subject, out Guid userId);
-                var basketResponse = await _client.PostAsJson("/api/baskets", new BasketForCreation { UserId = userId });
+                var basketResponse = await _client.PostAsJson("api/baskets", new BasketForCreation { UserId = userId });
                 var basket = await basketResponse.ReadContentAs<Basket>();
                 basketId = basket.BasketId;
             }
@@ -56,7 +56,7 @@ namespace MireroTicket.Web.Services
             
             var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
             _client.SetBearerToken(accessToken);
-            var response = await _client.GetAsync($"/api/baskets/{basketId}");
+            var response = await _client.GetAsync($"api/baskets/{basketId}");
             return await response.ReadContentAs<Basket>();
         }
 
@@ -67,7 +67,7 @@ namespace MireroTicket.Web.Services
             
             var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
             _client.SetBearerToken(accessToken);
-            var response = await _client.GetAsync($"/api/baskets/{basketId}/basketLines");
+            var response = await _client.GetAsync($"api/baskets/{basketId}/basketLines");
             return await response.ReadContentAs<BasketLine[]>();
 
         }
@@ -76,14 +76,14 @@ namespace MireroTicket.Web.Services
         {
             var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
             _client.SetBearerToken(accessToken);
-            await _client.PutAsJson($"/api/baskets/{basketId}/basketLines/{basketLineForUpdate.LineId}", basketLineForUpdate);
+            await _client.PutAsJson($"api/baskets/{basketId}/basketLines/{basketLineForUpdate.LineId}", basketLineForUpdate);
         }
 
         public async Task RemoveLine(Guid basketId, Guid lineId)
         {
             var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
             _client.SetBearerToken(accessToken);
-            await _client.DeleteAsync($"/api/baskets/{basketId}/basketLines/{lineId}");
+            await _client.DeleteAsync($"api/baskets/{basketId}/basketLines/{lineId}");
         }
 
         public async Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout)
