@@ -7,7 +7,7 @@ namespace MireroTicket.Services.ShoppingBasket.Mappers
 {
     public static class BasketCheckoutMessageMapper
     {
-        public static BasketCheckoutMessage From(BasketCheckout model)
+        public static BasketCheckoutMessage From(BasketCheckout model, string userId)
         {
             return new BasketCheckoutMessage
             {
@@ -25,7 +25,7 @@ namespace MireroTicket.Services.ShoppingBasket.Mappers
                 CvvCode = model.CvvCode,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserId = model.UserId,
+                UserId = userId,
                 ZipCode = model.ZipCode,
                 // model 에 없는거...
                 BasketLines = new List<BasketLineMessage>(), 

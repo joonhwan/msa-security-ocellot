@@ -98,7 +98,7 @@ namespace MireroTicket.Web.Controllers
         {
             try
             {
-                User.TryGetClaim(JwtClaimTypes.Subject, out Guid userId);
+                //User.TryGetClaim(JwtClaimTypes.Subject, out Guid userId);
                 var basketId = Request.Cookies.GetCurrentBasketId(settings);
                 if (ModelState.IsValid)
                 {
@@ -116,7 +116,7 @@ namespace MireroTicket.Web.Controllers
                         CardExpiration = basketCheckoutViewModel.CardExpiration,
                         CvvCode = basketCheckoutViewModel.CvvCode,
                         BasketId = basketId,
-                        UserId = userId,
+                        // UserId = userId,
                     };
 
                     await basketService.Checkout(basketCheckoutViewModel.BasketId, basketForCheckout);

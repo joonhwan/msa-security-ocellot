@@ -104,8 +104,13 @@ namespace MireroTicket.Services.ShoppingBasket.Controllers
                 {
                     return BadRequest(); // not NotFound() 
                 }
+                var userId = HttpContext.Request.Headers["CurrentUser"].FirstOrDefault(); // basketCheckout.UserId;
+                if (!userId.IsValidDbStringId())
+                {
+                    return BadRequest("No Valid 'CurrentUser' Header exists");
+                }
 
-                var basketCheckoutMessage = BasketCheckoutMessageMapper.From(basketCheckout);
+                var basketCheckoutMessage = BasketCheckoutMessageMapper.From(basketCheckout, userId);
                 basketCheckoutMessage
                     .BasketLines
                     .AddRange(entity
@@ -127,8 +132,7 @@ namespace MireroTicket.Services.ShoppingBasket.Controllers
                             lineMessage.Price * lineMessage.TicketAmount
                         );
                 
-                // Discount서버시를 통해 할인 적용.
-                var userId = basketCheckout.UserId;
+                // Discount서버를 통해 할인 적용.
                 var coupon = userId.IsValidDbStringId() ? await _discountService.GetCouponAsync(userId) : null;
                 var couponAmount = coupon?.Amount ?? 0;
                 

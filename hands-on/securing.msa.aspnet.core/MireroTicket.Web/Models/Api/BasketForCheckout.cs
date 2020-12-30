@@ -5,7 +5,7 @@ namespace MireroTicket.Web.Models.Api
     public class BasketForCheckout
     {
         public Guid BasketId { get; set; }
-        public Guid UserId { get; set; }
+        //public Guid UserId { get; set; }
 
         //user info
         public string FirstName { get; set; }
