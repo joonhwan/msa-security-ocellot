@@ -85,7 +85,7 @@ namespace MireroTicket.Services.Identity
                 new Client()
                 {
                     ClientName = "MireroTicket UI Client",
-                    ClientId = ClientIds.CodeTypeUiClient,
+                    ClientId = ClientIds.MvcClient,
                     ClientSecrets =
                     {
                         new Secret(
@@ -110,7 +110,30 @@ namespace MireroTicket.Services.Identity
                         Scopes.EventCatalog.Write
                     },
                 },
-                
+                new Client()
+                {
+                    ClientName = "MireroTicket General Client",
+                    ClientId = ClientIds.GeneralClient,
+                    ClientSecrets =
+                    {
+                        new Secret(
+                            "mireroticket.super.secrets".Sha256()
+                        )
+                    },
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    RedirectUris = {"https://localhost:5000/signin-oidc"},
+                    PostLogoutRedirectUris = {"https://localhost:5000/signout-callback-oidc"},
+                    AllowedScopes =
+                    {
+                        Scopes.OpenId,
+                        Scopes.Profile,
+                        Scopes.ShoppingBasket.All,
+                        Scopes.EventCatalog.Read,
+                        Scopes.EventCatalog.Write,
+                        // 클라이언트 임의로 할인쿠폰을 막 발행할 수 는 없다!!!
+                        // Scopes.Discount.All, 
+                    }
+                }
             };
 
     }

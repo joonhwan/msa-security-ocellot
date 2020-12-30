@@ -25,7 +25,7 @@ namespace MireroTicket.Utilities
     public static class ClientIds
     {
         public const string EventCatalogReader = "mireroticket.client.event-catalog.reader";
-        public const string CodeTypeUiClient = "mireroticket.client.code-only-ui";
+        public const string MvcClient = "mireroticket.client.code-only-ui";
         public const string GeneralClient = "mireroticket.client.ui";
     }
 

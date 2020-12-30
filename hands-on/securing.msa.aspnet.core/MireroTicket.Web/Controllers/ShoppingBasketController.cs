@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
 using MireroTicket.Utilities;
 
 namespace MireroTicket.Web.Controllers
@@ -97,7 +98,7 @@ namespace MireroTicket.Web.Controllers
         {
             try
             {
-                User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
+                User.TryGetClaim(JwtClaimTypes.Subject, out Guid userId);
                 var basketId = Request.Cookies.GetCurrentBasketId(settings);
                 if (ModelState.IsValid)
                 {

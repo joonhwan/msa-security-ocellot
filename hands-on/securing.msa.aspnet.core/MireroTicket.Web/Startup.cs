@@ -73,7 +73,7 @@ namespace MireroTicket.Web
                     };
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.Authority = "https://localhost:5010";
-                    options.ClientId = ClientIds.CodeTypeUiClient;
+                    options.ClientId = ClientIds.GeneralClient; //ClientIds.MvcClient;
                     options.ClientSecret = "mireroticket.super.secrets";
                     options.ResponseType = "code";
                     options.SaveTokens = true;

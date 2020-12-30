@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -38,7 +39,7 @@ namespace MireroTicket.Web.Services
             
             if (basketId == Guid.Empty)
             {
-                _httpContext.HttpContext.User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
+                _httpContext.HttpContext.User.TryGetClaim(JwtClaimTypes.Subject, out Guid userId);
                 var basketResponse = await _client.PostAsJson("/api/baskets", new BasketForCreation { UserId = userId });
                 var basket = await basketResponse.ReadContentAs<Basket>();
                 basketId = basket.BasketId;

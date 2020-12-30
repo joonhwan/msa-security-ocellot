@@ -6,6 +6,7 @@ using MireroTicket.Web.Models.View;
 using MireroTicket.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using MireroTicket.Utilities;
 
@@ -25,7 +26,7 @@ namespace MireroTicket.Web.Controllers
         public async Task<IActionResult> Index()
         {
             //User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
-            User.TryGetClaim("sub", out Guid userId);
+            User.TryGetClaim(JwtClaimTypes.Subject, out Guid userId);
             var orders = await orderService.GetOrdersForUser(userId);
 
             return View(new OrderViewModel { Orders = orders });
