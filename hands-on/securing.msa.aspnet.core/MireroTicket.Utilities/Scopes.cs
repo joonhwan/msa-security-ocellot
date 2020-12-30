@@ -27,6 +27,7 @@ namespace MireroTicket.Utilities
         public const string EventCatalogReader = "mireroticket.client.event-catalog.reader";
         public const string MvcClient = "mireroticket.client.code-only-ui";
         public const string GeneralClient = "mireroticket.client.ui";
+        public const string ShoppingBasketToDiscount = "mireroticket.client.shopping-basket.discount.service";
     }
 
     public static class Audiences

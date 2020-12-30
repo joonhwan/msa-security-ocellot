@@ -133,6 +133,20 @@ namespace MireroTicket.Services.Identity
                         // 클라이언트 임의로 할인쿠폰을 막 발행할 수 는 없다!!!
                         // Scopes.Discount.All, 
                     }
+                },
+                
+                new Client()
+                {
+                    ClientName = "MireroTicket `DiscountService` in ShoppingBasket Service",
+                    ClientId = ClientIds.ShoppingBasketToDiscount,
+                    AllowedGrantTypes =  new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
+                    ClientSecrets = { new Secret("i am going to use discount!!!".Sha256()) } ,
+                    AllowedScopes =
+                    {
+                        Scopes.OpenId, 
+                        Scopes.Profile, 
+                        Scopes.Discount.All
+                    }
                 }
             };
 

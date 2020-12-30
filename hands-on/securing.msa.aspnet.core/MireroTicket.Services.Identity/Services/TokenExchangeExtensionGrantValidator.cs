@@ -64,7 +64,7 @@ namespace MireroTicket.Services.Identity.Services
                     break;
                 }
 
-                if (AccessTokenType.Equals(subjectToken) == false)
+                if (AccessTokenType.Equals(subjectTokenType) == false)
                 {
                     error = new GrantValidationResult(
                         TokenRequestErrors.InvalidRequest,

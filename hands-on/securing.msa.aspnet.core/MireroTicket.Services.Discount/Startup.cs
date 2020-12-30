@@ -65,6 +65,7 @@ namespace MireroTicket.Services.Discount
             }
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
