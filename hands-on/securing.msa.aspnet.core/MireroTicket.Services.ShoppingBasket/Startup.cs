@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -62,24 +63,25 @@ namespace MireroTicket.Services.ShoppingBasket
                 .AddPolicyHandler(GetCircuitBreakerPolicy())
                 ;
 
-            services.AddControllers();
-            // services
-            //     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //     .AddJwtBearer(options =>
-            //     {
-            //         options.Authority = "https://localhost:5010";
-            //         options.Audience = Audiences.ShoppingBasket;
-            //     })
-            //     ;
-            //
-            // services.AddControllers(options =>
-            // {
-            //     var authPolicy = new AuthorizationPolicyBuilder()
-            //             .RequireAuthenticatedUser()
-            //             .Build()
-            //         ;
-            //     options.Filters.Add(new AuthorizeFilter(authPolicy));
-            // });
+            //services.AddControllers();
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://localhost:5010";
+                    options.Audience = Audiences.ShoppingBasket;
+                })
+                ;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            
+            services.AddControllers(options =>
+            {
+                var authPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build()
+                    ;
+                options.Filters.Add(new AuthorizeFilter(authPolicy));
+            });
         }
 
         private IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -113,7 +115,7 @@ namespace MireroTicket.Services.ShoppingBasket
             }
 
             app.UseRouting();
-            // app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

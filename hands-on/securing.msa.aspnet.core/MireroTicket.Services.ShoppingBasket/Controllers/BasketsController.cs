@@ -14,6 +14,7 @@ using MireroTicket.Services.ShoppingBasket.Mappers;
 using MireroTicket.Services.ShoppingBasket.Messages;
 using MireroTicket.Services.ShoppingBasket.Models;
 using MireroTicket.Services.ShoppingBasket.Services;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Services.ShoppingBasket.Controllers
 {
@@ -104,7 +105,8 @@ namespace MireroTicket.Services.ShoppingBasket.Controllers
                 {
                     return BadRequest(); // not NotFound() 
                 }
-                var userId = HttpContext.Request.Headers["CurrentUser"].FirstOrDefault(); // basketCheckout.UserId;
+                //var userId = HttpContext.Request.Headers["CurrentUser"].FirstOrDefault(); // basketCheckout.UserId;
+                var userId = User.GetClaimOrDefault<string>("sub");
                 if (!userId.IsValidDbStringId())
                 {
                     return BadRequest("No Valid 'CurrentUser' Header exists");
