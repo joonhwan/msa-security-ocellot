@@ -24,7 +24,8 @@ namespace MireroTicket.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
+            //User.TryGetClaim(ClaimTypes.NameIdentifier, out Guid userId);
+            User.TryGetClaim("sub", out Guid userId);
             var orders = await orderService.GetOrdersForUser(userId);
 
             return View(new OrderViewModel { Orders = orders });

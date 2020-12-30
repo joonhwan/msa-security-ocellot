@@ -20,9 +20,9 @@
         {
         <tr>
             <td>@line.Id</td>
-            <td>@line.OrderPlaced.ToShortDateString()</td>
-            <td class="bold">$@line.OrderTotal</td>
-            <td class="bold">@line.OrderPaid</td>
+            <td>@line.PlacedTime.ToShortDateString()</td>
+            <td class="bold">$@line.Total</td>
+            <td class="bold">@line.Paid</td>
         </tr>
         }
     </tbody>

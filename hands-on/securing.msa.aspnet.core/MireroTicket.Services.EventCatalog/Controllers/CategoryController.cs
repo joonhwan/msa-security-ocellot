@@ -10,6 +10,7 @@ using MireroTicket.Services.EventCatalog.Models;
 
 namespace MireroTicket.Services.EventCatalog.Controllers
 {
+    [Authorize(Policy = "CanRead")]
     [Route("api/categories")]
     // [Authorize] // --> 원래여기에.. 하지만, Global하게 할 수 있어서 주석처리함.
     public class CategoryController : ControllerBase

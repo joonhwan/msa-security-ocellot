@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Web.Services
 {
@@ -32,9 +33,9 @@ namespace MireroTicket.Web.Services
                 var tokenResponse = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
                 {
                     Address = ddr.TokenEndpoint,
-                    ClientId = "mireroticket.client.internal",
+                    ClientId = ClientIds.EventCatalogReader,
                     ClientSecret = "mireroticket.super.secrets",
-                    Scope = "mireroticket.scope.all",
+                    Scope = Scopes.EventCatalog.Read,
                 });
                 if (tokenResponse.IsError)
                 {

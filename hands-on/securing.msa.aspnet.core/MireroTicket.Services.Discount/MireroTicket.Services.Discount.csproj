@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
         <PrivateAssets>all</PrivateAssets>
@@ -15,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MireroTicket.Services.Common\MireroTicket.Services.Common.csproj" />
+      <ProjectReference Include="..\MireroTicket.Utilities\MireroTicket.Utilities.csproj" />
     </ItemGroup>
 
 </Project>

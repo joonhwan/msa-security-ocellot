@@ -17,6 +17,7 @@ using MireroTicket.ServiceBus;
 using MireroTicket.Services.ShoppingBasket.DbContexts;
 using MireroTicket.Services.ShoppingBasket.Messages;
 using MireroTicket.Services.ShoppingBasket.Services;
+using MireroTicket.Utilities;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -64,7 +65,7 @@ namespace MireroTicket.Services.ShoppingBasket
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5010";
-                    options.Audience = "mireroticket.aud.any";
+                    options.Audience = Audiences.ShoppingBasket;
                 })
                 ;
 
@@ -72,7 +73,6 @@ namespace MireroTicket.Services.ShoppingBasket
             {
                 var authPolicy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
-                        //.RequireClaim("role", "admin")
                         .Build()
                     ;
                 options.Filters.Add(new AuthorizeFilter(authPolicy));

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MireroTicket.Utilities;
 using MireroTicket.Web.Models;
 using MireroTicket.Web.Services;
 
@@ -65,9 +66,14 @@ namespace MireroTicket.Web
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
+                    options.Events.OnTokenResponseReceived = context =>
+                    {
+                        var response = context.TokenEndpointResponse;
+                        return Task.CompletedTask;
+                    };
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.Authority = "https://localhost:5010";
-                    options.ClientId = "mireroticket.client.ui";
+                    options.ClientId = ClientIds.CodeTypeUiClient;
                     options.ClientSecret = "mireroticket.super.secrets";
                     options.ResponseType = "code";
                     options.SaveTokens = true;
@@ -76,7 +82,7 @@ namespace MireroTicket.Web
                     options.GetClaimsFromUserInfoEndpoint = true; 
                     // 기본 "openid", "profile" 말고, 추가로 필요한 scope들
                     // -->  MVC Web Client 가 Auth정보로 각 개별 서비스에 직접 접근할 수 있게 하기 위함
-                    options.Scope.Add("mireroticket.scope.all");
+                    options.Scope.Add(Scopes.ShoppingBasket.All);
                 })
                 ;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

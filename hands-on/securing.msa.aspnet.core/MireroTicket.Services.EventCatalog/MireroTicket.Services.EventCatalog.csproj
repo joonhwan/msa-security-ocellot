@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MireroTicket.Services.Common\MireroTicket.Services.Common.csproj" />
+      <ProjectReference Include="..\MireroTicket.Utilities\MireroTicket.Utilities.csproj" />
     </ItemGroup>
 
 </Project>

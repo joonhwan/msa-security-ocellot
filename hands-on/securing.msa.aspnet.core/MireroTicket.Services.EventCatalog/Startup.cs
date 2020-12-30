@@ -12,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using MireroTicket.Services.EventCatalog.DbContexts;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Services.EventCatalog
 {
@@ -44,7 +46,23 @@ namespace MireroTicket.Services.EventCatalog
                         .Build()
                     ;
                 options.Filters.Add(new AuthorizeFilter(authPolicy));
-            }); 
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanRead", builder =>
+                {
+                    builder.RequireClaim("scope", new []{
+                        Scopes.EventCatalog.Read, 
+                    });
+                });
+                options.AddPolicy("CanWrite", builder =>
+                {
+                    builder.RequireClaim("scope", new[]
+                    {
+                        Scopes.EventCatalog.Write,
+                    });
+                });
+            });
             
             services
                 // @WebApiAuth
@@ -55,7 +73,7 @@ namespace MireroTicket.Services.EventCatalog
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5010"; // identity서비스 url
-                    options.Audience = "mireroticket.aud.any";
+                    options.Audience = Audiences.EventCatalog;
                 })
                 ;
         }
