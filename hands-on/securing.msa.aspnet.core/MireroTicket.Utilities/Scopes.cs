@@ -20,6 +20,11 @@ namespace MireroTicket.Utilities
         {
             public const string All = "mireroticket.scope.shopping-basket.all";
         }
+
+        public static class Gateway
+        {
+            public const string All = "mireroticket.scope.gateway";
+        }
     }
 
     public static class ClientIds
@@ -35,5 +40,6 @@ namespace MireroTicket.Utilities
         public const string EventCatalog = "mireroticket.aud.event-catalog";
         public const string ShoppingBasket = "mireroticket.aud.shopping-basket";
         public const string Discount = "mireroticket.aud.discount";
+        public const string Gateway = "mireroticket.aud.gateway";
     }
 }

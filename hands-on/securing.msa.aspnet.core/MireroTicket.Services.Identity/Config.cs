@@ -46,6 +46,13 @@ namespace MireroTicket.Services.Identity
                     {
                         Scopes.Discount.All,
                     }
+                },
+                new ApiResource(Audiences.Gateway, "MireroTicket Gateway API")
+                {
+                    Scopes =
+                    {
+                        Scopes.Gateway.All,
+                    }
                 }
             };
 
@@ -60,7 +67,8 @@ namespace MireroTicket.Services.Identity
                 new ApiScope(Scopes.EventCatalog.Write),
                 // read/write 으로 쪼갤 필요가 없는것들은 그냥 하나로 퉁 치면 됨. 
                 new ApiScope(Scopes.ShoppingBasket.All),
-                new ApiScope(Scopes.Discount.All)
+                new ApiScope(Scopes.Discount.All),
+                new ApiScope(Scopes.Gateway.All)
             };
 
         public static IEnumerable<Client> Clients =>
@@ -130,6 +138,7 @@ namespace MireroTicket.Services.Identity
                         Scopes.ShoppingBasket.All,
                         Scopes.EventCatalog.Read,
                         Scopes.EventCatalog.Write,
+                        Scopes.Gateway.All,
                         // 클라이언트 임의로 할인쿠폰을 막 발행할 수 는 없다!!!
                         // Scopes.Discount.All, 
                     }

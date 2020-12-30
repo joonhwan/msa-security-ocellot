@@ -20,22 +20,33 @@ namespace MireroTicket.Web.Services
     {
         private readonly HttpClient _client;
         private readonly IHttpContextAccessor _httpContext;
+        private string _accessToken;
 
         public ShoppingBasketService(HttpClient client, IHttpContextAccessor httpContextAccessor)
         {
             _client = client;
             _httpContext = httpContextAccessor;
+            _accessToken = null;
+        }
+
+        private async Task EnsureBearerToken()
+        {
+            if (string.IsNullOrEmpty(_accessToken))
+            {
+                // options.SaveTokens = True 했기때문에  다음이 가능함.
+                _accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
+            }
+
+            // NOTE: 만일 아래처럼 access_token 의 마지막 부분(=Signature)을 건들면, Unauthorized 오류가 발생한다
+            // --> Token Validation 이 서비스측에서 실패하기 때문?!
+            // accessToken = accessToken.Substring(0, accessToken.Length - 4) + "xxxx"; 
+            _client.SetBearerToken(_accessToken);
+                        
         }
 
         public async Task<BasketLine> AddToBasket(Guid basketId, BasketLineForCreation basketLine)
         {
-            // options.SaveTokens = True 했기때문에  다음이 가능함.
-            var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
-            
-            // NOTE: 만일 아래처럼 access_token 의 마지막 부분(=Signature)을 건들면, Unauthorized 오류가 발생한다
-            // --> Token Validation 이 서비스측에서 실패하기 때문?!
-            // accessToken = accessToken.Substring(0, accessToken.Length - 4) + "xxxx"; 
-            _client.SetBearerToken(accessToken);
+            await EnsureBearerToken();
             
             if (basketId == Guid.Empty)
             {
@@ -54,6 +65,8 @@ namespace MireroTicket.Web.Services
             if (basketId == Guid.Empty)
                 return null;
             
+            await EnsureBearerToken();
+            
             var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
             _client.SetBearerToken(accessToken);
             var response = await _client.GetAsync($"api/baskets/{basketId}");
@@ -65,8 +78,8 @@ namespace MireroTicket.Web.Services
             if (basketId == Guid.Empty)
                 return new BasketLine[0];
             
-            var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
-            _client.SetBearerToken(accessToken);
+            await EnsureBearerToken();
+            
             var response = await _client.GetAsync($"api/baskets/{basketId}/basketLines");
             return await response.ReadContentAs<BasketLine[]>();
 
@@ -74,22 +87,22 @@ namespace MireroTicket.Web.Services
 
         public async Task UpdateLine(Guid basketId, BasketLineForUpdate basketLineForUpdate)
         {
-            var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
-            _client.SetBearerToken(accessToken);
+            await EnsureBearerToken();
+            
             await _client.PutAsJson($"api/baskets/{basketId}/basketLines/{basketLineForUpdate.LineId}", basketLineForUpdate);
         }
 
         public async Task RemoveLine(Guid basketId, Guid lineId)
         {
-            var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
-            _client.SetBearerToken(accessToken);
+            await EnsureBearerToken();
+            
             await _client.DeleteAsync($"api/baskets/{basketId}/basketLines/{lineId}");
         }
 
         public async Task<BasketForCheckout> Checkout(Guid basketId, BasketForCheckout basketForCheckout)
         {
-            var accessToken = await _httpContext.HttpContext.GetTokenAsync("access_token");
-            _client.SetBearerToken(accessToken);
+            await EnsureBearerToken();
+            
             var response = await _client.PostAsJson($"api/baskets/checkout", basketForCheckout);
             if(response.IsSuccessStatusCode)
                 return await response.ReadContentAs<BasketForCheckout>();

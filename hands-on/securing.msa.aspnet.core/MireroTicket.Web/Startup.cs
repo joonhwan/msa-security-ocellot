@@ -83,6 +83,7 @@ namespace MireroTicket.Web
                     // 기본 "openid", "profile" 말고, 추가로 필요한 scope들
                     // -->  MVC Web Client 가 Auth정보로 각 개별 서비스에 직접 접근할 수 있게 하기 위함
                     options.Scope.Add(Scopes.ShoppingBasket.All);
+                    options.Scope.Add(Scopes.Gateway.All);
                 })
                 ;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
