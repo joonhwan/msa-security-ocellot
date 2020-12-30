@@ -37,22 +37,23 @@ namespace MireroTicket.Services.Discount
                 builder.UseSqlite(connectionString);
             });
 
-            services.AddControllers(options =>
-            {
-                var authPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(authPolicy));
-            });
-
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:5010"; // identity서비스 url
-                    options.Audience = Audiences.Discount;
-                })
-                ;
+            services.AddControllers();
+            // services.AddControllers(options =>
+            // {
+            //     var authPolicy = new AuthorizationPolicyBuilder()
+            //         .RequireAuthenticatedUser()
+            //         .Build();
+            //     options.Filters.Add(new AuthorizeFilter(authPolicy));
+            // });
+            //
+            // services
+            //     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Authority = "https://localhost:5010"; // identity서비스 url
+            //         options.Audience = Audiences.Discount;
+            //     })
+            //     ;
 
         }
 
@@ -65,7 +66,7 @@ namespace MireroTicket.Services.Discount
             }
 
             app.UseRouting();
-            app.UseAuthentication();
+            // app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

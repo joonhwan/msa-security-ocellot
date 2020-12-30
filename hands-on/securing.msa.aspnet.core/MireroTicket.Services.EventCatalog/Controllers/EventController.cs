@@ -11,7 +11,7 @@ using MireroTicket.Services.EventCatalog.Models;
 
 namespace MireroTicket.Services.EventCatalog.Controllers
 {
-    [Authorize(Policy = "CanRead")]
+    // [Authorize(Policy = "CanRead")]
     [Route("api/events")]
     public class EventController : ControllerBase
     {

@@ -38,44 +38,45 @@ namespace MireroTicket.Services.EventCatalog
                 builder.UseSqlite(connectionString);
             });
 
-            // NOT services.AddControllersWithViews()
-            services.AddControllers(options =>
-            {
-                var authPolicy = new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build()
-                    ;
-                options.Filters.Add(new AuthorizeFilter(authPolicy));
-            });
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("CanRead", builder =>
-                {
-                    builder.RequireClaim("scope", new []{
-                        Scopes.EventCatalog.Read, 
-                    });
-                });
-                options.AddPolicy("CanWrite", builder =>
-                {
-                    builder.RequireClaim("scope", new[]
-                    {
-                        Scopes.EventCatalog.Write,
-                    });
-                });
-            });
-            
-            services
-                // @WebApiAuth
-                //
-                // Web API 서비스가 M2M(Client Credential Flow)를 사용하여 Access Token을 스스로 얻어올 예정이므로,
-                // Authentication 이 필요해진다. 
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:5010"; // identity서비스 url
-                    options.Audience = Audiences.EventCatalog;
-                })
-                ;
+            services.AddControllers();
+            // // NOT services.AddControllersWithViews()
+            // services.AddControllers(options =>
+            // {
+            //     var authPolicy = new AuthorizationPolicyBuilder()
+            //             .RequireAuthenticatedUser()
+            //             .Build()
+            //         ;
+            //     options.Filters.Add(new AuthorizeFilter(authPolicy));
+            // });
+            // services.AddAuthorization(options =>
+            // {
+            //     options.AddPolicy("CanRead", builder =>
+            //     {
+            //         builder.RequireClaim("scope", new []{
+            //             Scopes.EventCatalog.Read, 
+            //         });
+            //     });
+            //     options.AddPolicy("CanWrite", builder =>
+            //     {
+            //         builder.RequireClaim("scope", new[]
+            //         {
+            //             Scopes.EventCatalog.Write,
+            //         });
+            //     });
+            // });
+            //
+            // services
+            //     // @WebApiAuth
+            //     //
+            //     // Web API 서비스가 M2M(Client Credential Flow)를 사용하여 Access Token을 스스로 얻어올 예정이므로,
+            //     // Authentication 이 필요해진다. 
+            //     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Authority = "https://localhost:5010"; // identity서비스 url
+            //         options.Audience = Audiences.EventCatalog;
+            //     })
+            //     ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +89,7 @@ namespace MireroTicket.Services.EventCatalog
 
             //  Routing -> Authentication -> Authorziation 의 순서가 중요하다.
             app.UseRouting();
-            app.UseAuthentication(); // see @WebApiAuth
+            // app.UseAuthentication(); // see @WebApiAuth
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>

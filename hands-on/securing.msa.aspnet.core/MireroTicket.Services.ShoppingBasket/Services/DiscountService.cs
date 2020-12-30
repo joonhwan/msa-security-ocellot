@@ -14,19 +14,19 @@ namespace MireroTicket.Services.ShoppingBasket.Services
     public class DiscountService
     {
         private readonly HttpClient _client;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private string _accessToken;
+        // private readonly IHttpContextAccessor _httpContextAccessor;
+        // private string _accessToken;
 
-        public DiscountService(HttpClient client, IHttpContextAccessor httpContextAccessor)
+        public DiscountService(HttpClient client)//, IHttpContextAccessor httpContextAccessor)
         {
             _client = client;
-            _httpContextAccessor = httpContextAccessor;
-            _accessToken = null;
+            // _httpContextAccessor = httpContextAccessor;
+            // _accessToken = null;
         }
 
         public async Task<Coupon> GetCouponAsync(string userId)
         {
-            await EnsureBearerToken();
+            // await EnsureBearerToken();
             
             var response = await _client.GetAsync($"/api/discount/user/{userId}");
             
@@ -39,48 +39,48 @@ namespace MireroTicket.Services.ShoppingBasket.Services
             
             return await response.ReadContentAs<Coupon>();
         }
-
-        private async Task EnsureBearerToken()
-        {
-            if (string.IsNullOrEmpty(_accessToken))
-            {
-                var ddr = await _client.GetDiscoveryDocumentAsync("https://localhost:5010");
-                if (ddr.IsError)
-                {
-                    throw new ApplicationException(ddr.Error);
-                }
-
-                var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-                var scopes = string.Join(" ", new[]
-                {
-                    Scopes.OpenId,
-                    Scopes.Profile,
-                    Scopes.Discount.All
-                });
-                var tokenExchangeParams = new Dictionary<string, string>
-                {
-                    {"subject_token_type", "urn:ietf:params:oauth:token-type:access_token"},
-                    {"subject_token", accessToken},
-                    {"scope", scopes}
-                };
-
-                var tokenResponse = await _client.RequestTokenAsync(new TokenRequest()
-                {
-                    Address = ddr.TokenEndpoint,
-                    GrantType = "urn:ietf:params:oauth:grant-type:token-exchange",
-                    Parameters = tokenExchangeParams,
-                    ClientId = ClientIds.ShoppingBasketToDiscount,
-                    ClientSecret = "i am going to use discount!!!",
-                });
-
-                if (tokenResponse.IsError)
-                {
-                    throw new ApplicationException(tokenResponse.Error);
-                }
-
-                _accessToken = tokenResponse.AccessToken;
-            }
-            _client.SetBearerToken(_accessToken);
-        }
+        //
+        // private async Task EnsureBearerToken()
+        // {
+        //     if (string.IsNullOrEmpty(_accessToken))
+        //     {
+        //         var ddr = await _client.GetDiscoveryDocumentAsync("https://localhost:5010");
+        //         if (ddr.IsError)
+        //         {
+        //             throw new ApplicationException(ddr.Error);
+        //         }
+        //
+        //         var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        //         var scopes = string.Join(" ", new[]
+        //         {
+        //             Scopes.OpenId,
+        //             Scopes.Profile,
+        //             Scopes.Discount.All
+        //         });
+        //         var tokenExchangeParams = new Dictionary<string, string>
+        //         {
+        //             {"subject_token_type", "urn:ietf:params:oauth:token-type:access_token"},
+        //             {"subject_token", accessToken},
+        //             {"scope", scopes}
+        //         };
+        //
+        //         var tokenResponse = await _client.RequestTokenAsync(new TokenRequest()
+        //         {
+        //             Address = ddr.TokenEndpoint,
+        //             GrantType = "urn:ietf:params:oauth:grant-type:token-exchange",
+        //             Parameters = tokenExchangeParams,
+        //             ClientId = ClientIds.ShoppingBasketToDiscount,
+        //             ClientSecret = "i am going to use discount!!!",
+        //         });
+        //
+        //         if (tokenResponse.IsError)
+        //         {
+        //             throw new ApplicationException(tokenResponse.Error);
+        //         }
+        //
+        //         _accessToken = tokenResponse.AccessToken;
+        //     }
+        //     _client.SetBearerToken(_accessToken);
+        // }
     }
 }
