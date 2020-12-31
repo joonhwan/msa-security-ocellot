@@ -46,14 +46,20 @@ namespace MireroTicket.Web
 
             if (environment.IsDevelopment())
                 builder.AddRazorRuntimeCompilation();
+                    
+            services.AddAccessTokenManagement();// IdentityModel.AspNetCore 패키지 
 
             services.AddHttpContextAccessor();
+            
             services.AddHttpClient<IEventCatalogService, EventCatalogService>(c => 
-                c.BaseAddress = new Uri(config["ApiConfigs:EventCatalog:Uri"]));
+                c.BaseAddress = new Uri(config["ApiConfigs:EventCatalog:Uri"]))
+                .AddUserAccessTokenHandler();
             services.AddHttpClient<IShoppingBasketService, ShoppingBasketService>(c => 
-                c.BaseAddress = new Uri(config["ApiConfigs:ShoppingBasket:Uri"]));
+                c.BaseAddress = new Uri(config["ApiConfigs:ShoppingBasket:Uri"]))
+                .AddUserAccessTokenHandler();
             services.AddHttpClient<IOrderService, OrderService>(c =>
-                c.BaseAddress = new Uri(config["ApiConfigs:Order:Uri"]));
+                c.BaseAddress = new Uri(config["ApiConfigs:Order:Uri"]))
+                .AddUserAccessTokenHandler();;
         
             services.AddSingleton<Settings>();
 
@@ -86,10 +92,10 @@ namespace MireroTicket.Web
                     options.Scope.Add(Scopes.Gateway.All);
                     // options.Scope.Add(Scopes.EventCatalog.Read);
                     // options.Scope.Add(Scopes.EventCatalog.Write);
+                    options.Scope.Add("offline_access");
                 })
                 ;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

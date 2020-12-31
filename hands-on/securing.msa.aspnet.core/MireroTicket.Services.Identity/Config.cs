@@ -130,6 +130,7 @@ namespace MireroTicket.Services.Identity
                         )
                     },
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    
                     RedirectUris = {"https://localhost:5000/signin-oidc"},
                     PostLogoutRedirectUris = {"https://localhost:5000/signout-callback-oidc"},
                     AllowedScopes =
@@ -144,6 +145,9 @@ namespace MireroTicket.Services.Identity
                         // Scopes.Discount.All, 
                     },
                     RequireConsent = false, // false가 기본값
+                    
+                    AllowOfflineAccess = true, // refresh_token 
+                    AccessTokenLifetime = 60, // in second. 60초는 너무짧다(계속 refresh해야 댐). 기본값은 3600초.
                 },
                 
                 new Client()
