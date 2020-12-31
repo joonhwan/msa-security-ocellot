@@ -117,7 +117,7 @@ namespace MireroTicket.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
             
             app.UseEndpoints(endpoints =>
             {

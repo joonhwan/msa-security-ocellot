@@ -69,7 +69,7 @@ namespace MireroTicket.Services.Discount
             // app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            // app.UseMiddleware<RequestResponseLoggingMiddleware>();
             
             app.UseEndpoints(endpoints =>
             {
