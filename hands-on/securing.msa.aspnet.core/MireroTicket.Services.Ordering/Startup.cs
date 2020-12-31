@@ -10,12 +10,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MireroTicket.Messages;
 using MireroTicket.ServiceBus;
 using MireroTicket.ServiceBus.RabbitMQ;
 using MireroTicket.Services.Ordering.DbContexts;
 using MireroTicket.Services.Ordering.MessageHandlers;
 using MireroTicket.Services.Ordering.Messages;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Services.Ordering
 {
@@ -65,6 +67,8 @@ namespace MireroTicket.Services.Ordering
 
             app.UseRouting();
             app.UseAuthorization();
+            
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

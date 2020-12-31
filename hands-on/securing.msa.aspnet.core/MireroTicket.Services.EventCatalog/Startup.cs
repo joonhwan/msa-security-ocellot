@@ -92,6 +92,8 @@ namespace MireroTicket.Services.EventCatalog
             app.UseAuthentication(); // see @WebApiAuth
             app.UseAuthorization();
             
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            
             app.UseEndpoints(endpoints =>
             {
                 // endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });

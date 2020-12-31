@@ -117,6 +117,8 @@ namespace MireroTicket.Services.ShoppingBasket
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

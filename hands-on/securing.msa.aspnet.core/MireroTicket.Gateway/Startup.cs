@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MireroTicket.Gateway.DelegatingHandlers;
 using MireroTicket.Utilities;
 using Ocelot.Authorisation;
 using Ocelot.DependencyInjection;
@@ -27,14 +28,21 @@ namespace MireroTicket.Gateway
             
             var authenticationScheme = "mireroticket.gateway.authentication.scheme";
             services
-                .AddAuthentication(authenticationScheme)
+                .AddAuthentication()
                 .AddJwtBearer(authenticationScheme, options =>
                 {
                     options.Authority = "https://localhost:5010";
                     options.Audience = Audiences.Gateway;
                 })
                 ;
-            services.AddOcelot();
+            
+            services.AddHttpClient();
+            services.AddScoped<TokenExchangeDelegatingHandler>(); // 강의에서는 이걸 했는데...   :-( 
+
+            services
+                .AddOcelot()
+                .AddDelegatingHandler<TokenExchangeDelegatingHandler>()
+                ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +53,8 @@ namespace MireroTicket.Gateway
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            
             app.UseOcelot().Wait();
         }
     }

@@ -84,8 +84,8 @@ namespace MireroTicket.Web
                     // -->  MVC Web Client 가 Auth정보로 각 개별 서비스에 직접 접근할 수 있게 하기 위함
                     options.Scope.Add(Scopes.ShoppingBasket.All);
                     options.Scope.Add(Scopes.Gateway.All);
-                    options.Scope.Add(Scopes.EventCatalog.Read);
-                    options.Scope.Add(Scopes.EventCatalog.Write);
+                    // options.Scope.Add(Scopes.EventCatalog.Read);
+                    // options.Scope.Add(Scopes.EventCatalog.Write);
                 })
                 ;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -111,6 +111,8 @@ namespace MireroTicket.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

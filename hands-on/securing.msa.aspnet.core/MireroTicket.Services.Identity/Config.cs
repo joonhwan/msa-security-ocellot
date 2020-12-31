@@ -114,8 +114,9 @@ namespace MireroTicket.Services.Identity
                         Scopes.Profile,
                         // 우리가 정의한 scope
                         Scopes.ShoppingBasket.All,
-                        Scopes.EventCatalog.Read,
-                        Scopes.EventCatalog.Write
+                        // Scopes.EventCatalog.Read,
+                        // Scopes.EventCatalog.Write
+                        
                     },
                 },
                 new Client()
@@ -136,25 +137,41 @@ namespace MireroTicket.Services.Identity
                         Scopes.OpenId,
                         Scopes.Profile,
                         Scopes.ShoppingBasket.All,
-                        Scopes.EventCatalog.Read,
-                        Scopes.EventCatalog.Write,
+                        // Scopes.EventCatalog.Read,
+                        // Scopes.EventCatalog.Write,
                         Scopes.Gateway.All,
                         // 클라이언트 임의로 할인쿠폰을 막 발행할 수 는 없다!!!
                         // Scopes.Discount.All, 
-                    }
+                    },
+                    RequireConsent = false, // false가 기본값
                 },
                 
                 new Client()
                 {
                     ClientName = "MireroTicket `DiscountService` in ShoppingBasket Service",
                     ClientId = ClientIds.ShoppingBasketToDiscount,
-                    AllowedGrantTypes =  new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
                     ClientSecrets = { new Secret("i am going to use discount!!!".Sha256()) } ,
+                    AllowedGrantTypes =  new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
                     AllowedScopes =
                     {
                         Scopes.OpenId, 
                         Scopes.Profile, 
                         Scopes.Discount.All
+                    }
+                },
+                // Gateway 의  Upstream에서 수신한 Token으로 Downstream쪽에 대한 Token으로 변환하는 서비스를 위함. 
+                new Client()
+                {
+                    ClientName = "MireroTicket TokenExchanger Service for API Gateway",
+                    ClientId = ClientIds.GatewayDownstreamTokenExchanger,
+                    ClientSecrets ={ new Secret("i am a gateway. give me new token!!!".Sha256()) },
+                    AllowedGrantTypes =  new[] { "urn:ietf:params:oauth:grant-type:token-exchange" },
+                    AllowedScopes =
+                    {
+                        Scopes.OpenId,
+                        Scopes.Profile,
+                        Scopes.EventCatalog.Read,
+                        Scopes.EventCatalog.Write,
                     }
                 }
             };

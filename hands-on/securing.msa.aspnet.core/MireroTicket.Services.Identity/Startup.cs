@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MireroTicket.Services.Identity.Services;
+using MireroTicket.Utilities;
 
 namespace MireroTicket.Services.Identity
 {
@@ -68,6 +69,9 @@ namespace MireroTicket.Services.Identity
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
+            
+            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
