@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SpaWithIdentity" type="CompoundRunConfigurationType">
+    <toRun name="Mirero.VanillaJs.App" type="LaunchSettings" />
+    <toRun name="Mirero.ZeroAuth.Service: SelfHost" type="LaunchSettings" />
+    <method v="2" />
+  </configuration>
+</component>
