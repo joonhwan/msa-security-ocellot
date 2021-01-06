@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using IdentityServer4;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,10 @@ namespace Mirero.ZeroAuth.Service
         {
             services.AddControllersWithViews();
 
+            AccountOptions.RememberMeLoginDuration = TimeSpan.FromDays(30);
+            AccountOptions.AutomaticRedirectAfterSignOut = true;
+            AccountOptions.ShowLogoutPrompt = false;
+            
             services
                 .AddIdentityServer(options =>
                 {
@@ -39,6 +44,7 @@ namespace Mirero.ZeroAuth.Service
                     options.EmitStaticAudienceClaim = true;
                 })
                 .AddTestUsers(TestUsers.Users)
+                .AddResourceOwnerValidator<MireroResourceOwnerClientPasswordValidator>() // @나중에 이걸 고친다.
                 // in-memory, code config
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
@@ -46,6 +52,7 @@ namespace Mirero.ZeroAuth.Service
                 // not recommended for production - you need to store your key material somewhere secure
                 .AddDeveloperSigningCredential()
                 ;
+            
 
             services.AddAuthentication();
         }

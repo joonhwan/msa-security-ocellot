@@ -4,6 +4,7 @@
 
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using IdentityServer4;
 
 namespace Mirero.ZeroAuth.Service
 {
@@ -83,6 +84,34 @@ namespace Mirero.ZeroAuth.Service
                     RequireConsent = false,
                     //AccessTokenLifetime = 5, // 테스트를 위해 30초만. (디폴트는 3600초=1시간)
                 },
+                ///////////////////////////////////////////
+                // JS OIDC Sample
+                //////////////////////////////////////////
+                new Client
+                {
+                    ClientId = "mirero.oidc",
+                    ClientName = "JavaScript OIDC Client",
+                    ClientUri = "http://identityserver.io",
+                    
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
+                    
+                    RedirectUris = 
+                    {
+                        "https://localhost:44300/index.html",
+                        "https://localhost:44300/callback.html",
+                        "https://localhost:44300/silent.html",
+                        "https://localhost:44300/popup.html"
+                    },
+
+                    PostLogoutRedirectUris = { "https://localhost:44300/index.html" },
+                    AllowedCorsOrigins = { "https://localhost:44300" },
+
+                    AllowedScopes = { "openid", "profile", "scope1", "scope2" },
+                    AccessTokenLifetime = 180,
+                    AllowOfflineAccess = true,
+                },
+
                 // 
                 new Client {
                     ClientId = "mirero.secured.spa",
@@ -95,11 +124,57 @@ namespace Mirero.ZeroAuth.Service
                     PostLogoutRedirectUris = { "http://localhost:4200" },
                     AllowedCorsOrigins = { "http://localhost:4200" },
 
-                    AllowedScopes = { "openid", "profile" },
+                    AllowedScopes = { "openid", "profile", "scope1", "scope2" },
 
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
-                }
+                },
+                
+                ///////////////////////////////////////////
+                // Console Public Resource Owner Flow Sample
+                //////////////////////////////////////////
+                new Client
+                {
+                    ClientId = "mirero.resource.owner.client",
+                    RequireClientSecret = false,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowOfflineAccess = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "scope1", "scope2"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "mirero.gitea.auth",
+                    ClientSecrets = {new Secret("very-secret-key-for-gitea".Sha256())},
+                    
+                    ClientName = "Gitea",
+                    ClientUri = "http://localhost:300",
+                    
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = false,
+                    
+                    RedirectUris = 
+                    {
+                        "http://localhost:3000/user/oauth2/is4/callback"
+                    },
+
+                    PostLogoutRedirectUris =
+                    {
+                        "http://localhost:3000"
+                    },
+                    AllowedCorsOrigins =
+                    {
+                        "http://localhost:3000"
+                    },
+
+                    AllowedScopes = { "openid", "profile", "email", "name", "scope1", "scope2" },
+                    AccessTokenLifetime = 180,
+                    AllowOfflineAccess = true,
+                },
             };
     }
 }

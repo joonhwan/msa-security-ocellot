@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirero.Angular.App", "ident
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirero.React.App", "identityserver.with.spa\Mirero.React.App\Mirero.React.App.csproj", "{6283DB4D-CD94-40AD-9E9E-BA295340A937}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsOidc", "D:\Workspace\prj\study\dotnet\msa-security-ocellot\hands-on\identityserver.with.spa\IdentitySample.Client.JsOidc\JsOidc.csproj", "{805B412D-17A5-464D-9920-92AB0964BA6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,10 @@ Global
 		{6283DB4D-CD94-40AD-9E9E-BA295340A937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6283DB4D-CD94-40AD-9E9E-BA295340A937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6283DB4D-CD94-40AD-9E9E-BA295340A937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805B412D-17A5-464D-9920-92AB0964BA6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805B412D-17A5-464D-9920-92AB0964BA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805B412D-17A5-464D-9920-92AB0964BA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805B412D-17A5-464D-9920-92AB0964BA6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{968C8D87-39FB-4DF6-8E7D-47111F0A7C8C} = {1847EFFA-CF98-48F7-AD06-08EAF2C32395}
@@ -197,5 +203,6 @@ Global
 		{3F2894D5-2B5E-48F0-8E8F-EFD0E75623B5} = {3C29A08E-C637-487C-83C5-E0129CB321CA}
 		{9E1AB932-0534-40CE-B15F-CB67B1069C1B} = {3C29A08E-C637-487C-83C5-E0129CB321CA}
 		{6283DB4D-CD94-40AD-9E9E-BA295340A937} = {3C29A08E-C637-487C-83C5-E0129CB321CA}
+		{805B412D-17A5-464D-9920-92AB0964BA6E} = {3C29A08E-C637-487C-83C5-E0129CB321CA}
 	EndGlobalSection
 EndGlobal

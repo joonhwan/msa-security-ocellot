@@ -14,7 +14,7 @@ namespace MireroTicket.ServiceBus.TestWorker.Handlers
         {
             _worker = worker;
         }
-        
+
         public Task Handle(TestPublishMessage request, CancellationToken cancellationToken)
         {
             Console.WriteLine($"{_worker.Id} : Received `TestPublishMessage`");
